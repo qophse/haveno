@@ -34,6 +34,8 @@ Run `make monero-shared`
 
 `start_mining 56k9Yra1pxwcTYzqKcnLip8mymSQdEfA6V7476W9XhSiHPp1hAboo1F6na7kxTxwvXU6JjDQtu8VJdGj9FEcjkxGJfsyyah 1`
 
+After 130 blocks are mined, run `stop_mining` in the same terminal.
+
 ## 5. Deploy
 
 If you are a *screen* user, simply run `make deploy`. This command will open all needed Haveno instances (seednode, Alice, Bob, arbitrator) using *screen*. If this is the first time launching the arbitrator desktop application, register the arbitrator and mediator as explained in steps `5.3.1` and `5.3.2`.
