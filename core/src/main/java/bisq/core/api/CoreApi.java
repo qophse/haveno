@@ -30,6 +30,7 @@ import bisq.core.payment.payload.PaymentMethod;
 import bisq.core.trade.Trade;
 import bisq.core.trade.statistics.TradeStatistics3;
 import bisq.core.trade.statistics.TradeStatisticsManager;
+import bisq.core.support.messages.ChatMessage;
 
 import bisq.common.app.Version;
 import bisq.common.config.Config;
@@ -286,6 +287,14 @@ public class CoreApi {
 
     public String getTradeRole(String tradeId) {
         return coreTradesService.getTradeRole(tradeId);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    // Trade Chat
+    ///////////////////////////////////////////////////////////////////////////////////////////
+   
+   public List<ChatMessage> getChatMessages(String tradeId) {
+        return coreTradesService.getChatMessages(tradeId);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////

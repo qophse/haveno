@@ -29,6 +29,9 @@ import bisq.core.trade.TradeUtil;
 import bisq.core.trade.closed.ClosedTradableManager;
 import bisq.core.trade.protocol.BuyerProtocol;
 import bisq.core.trade.protocol.SellerProtocol;
+import bisq.core.support.traderchat.TraderChatManager;
+import bisq.core.support.messages.ChatMessage;
+import bisq.core.support.SupportType;
 import bisq.core.user.User;
 import bisq.core.util.validation.BtcAddressValidator;
 
@@ -61,6 +64,7 @@ class CoreTradesService {
     private final OfferUtil offerUtil;
     private final ClosedTradableManager closedTradableManager;
     private final TakeOfferModel takeOfferModel;
+    private final TraderChatManager traderChatManager;
     private final TradeManager tradeManager;
     private final TradeUtil tradeUtil;
     private final User user;
@@ -72,6 +76,7 @@ class CoreTradesService {
                              OfferUtil offerUtil,
                              ClosedTradableManager closedTradableManager,
                              TakeOfferModel takeOfferModel,
+                             TraderChatManager traderChatManager,
                              TradeManager tradeManager,
                              TradeUtil tradeUtil,
                              User user) {
@@ -81,6 +86,7 @@ class CoreTradesService {
         this.offerUtil = offerUtil;
         this.closedTradableManager = closedTradableManager;
         this.takeOfferModel = takeOfferModel;
+        this.traderChatManager = traderChatManager;
         this.tradeManager = tradeManager;
         this.tradeUtil = tradeUtil;
         this.user = user;
@@ -235,6 +241,12 @@ class CoreTradesService {
         List<Trade> trades = new ArrayList<Trade>(tradeManager.getTrades());
         trades.addAll(closedTradableManager.getClosedTrades());
         return trades;
+    }
+
+    List<ChatMessage> getChatMessages(String tradeId) {
+        List<ChatMessage> tradeChats = new ArrayList<ChatMessage>();
+        tradeChats.addAll(traderChatManager.getAllChatMessages());
+        return tradeChats;
     }
 
     private boolean isFollowingBuyerProtocol(Trade trade) {

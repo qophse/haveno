@@ -20,6 +20,7 @@ package bisq.daemon.grpc;
 import bisq.core.api.CoreApi;
 import bisq.core.api.model.TradeInfo;
 import bisq.core.trade.Trade;
+import bisq.core.support.messages.ChatMessage;
 
 import bisq.proto.grpc.ConfirmPaymentReceivedReply;
 import bisq.proto.grpc.ConfirmPaymentReceivedRequest;
@@ -35,6 +36,8 @@ import bisq.proto.grpc.TakeOfferReply;
 import bisq.proto.grpc.TakeOfferRequest;
 import bisq.proto.grpc.WithdrawFundsReply;
 import bisq.proto.grpc.WithdrawFundsRequest;
+import bisq.proto.grpc.ChatMessageRequest;
+import bisq.proto.grpc.ChatMessageResponse;
 
 import io.grpc.ServerInterceptor;
 import io.grpc.stub.StreamObserver;
@@ -178,6 +181,25 @@ class GrpcTradesService extends TradesImplBase {
         try {
             coreApi.withdrawFunds(req.getTradeId(), req.getAddress(), req.getMemo());
             var reply = WithdrawFundsReply.newBuilder().build();
+            responseObserver.onNext(reply);
+            responseObserver.onCompleted();
+        } catch (Throwable cause) {
+            exceptionHandler.handleException(log, cause, responseObserver);
+        }
+    }
+
+    @Override
+    public void getChatMessages(ChatMessageRequest req,
+                              StreamObserver<ChatMessageResponse> responseObserver) {
+        try {
+            List<ChatMessage> tradeChats = coreApi.getChatMessages(req.getTradeId())
+                    .stream()
+                    .collect(Collectors.toList());
+            var reply = ChatMessageResponse.newBuilder()
+                    .addAllMessage(tradeChats.stream()
+                            .map(msg -> msg.toProtoNetworkEnvelope().getChatMessage())
+                            .collect(Collectors.toList()))
+                    .build();
             responseObserver.onNext(reply);
             responseObserver.onCompleted();
         } catch (Throwable cause) {
