@@ -314,7 +314,7 @@ service Trades {
     }
     rpc GetChatMessages (ChatMessageRequest) returns (ChatMessageResponse) {
     }
-    rpc SendChatMessage (stream TradeChatMessageRequest) returns (TradeChatMessageReply) {
+    rpc SendChatMessage (TradeChatMessageRequest) returns (TradeChatMessageReply) {
     }
     rpc OnChatMessage (TradeChatMessageRequest) returns (FunctionInvoker) {
     }
