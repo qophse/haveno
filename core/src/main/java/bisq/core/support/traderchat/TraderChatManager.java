@@ -135,14 +135,21 @@ public class TraderChatManager extends SupportManager {
     }
 
     public void sendChatMessage(String tradeId, String message) {
-        ChatMessage chatMessage = new ChatMessage(
+        sendChatMessage(toChatMessage(tradeId, message));
+    }
+
+    public void onChatMessage(String tradeId, String message) {
+        onChatMessage(toChatMessage(tradeId, message));
+    }
+
+    private ChatMessage toChatMessage(String tradeId, String message) {
+        return new ChatMessage(
             getSupportType(),
             tradeId,
             pubKeyRing.hashCode(),
             false,
             message,
             p2PService.getAddress());
-        sendChatMessage(chatMessage);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////

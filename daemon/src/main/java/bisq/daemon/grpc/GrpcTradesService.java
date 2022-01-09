@@ -38,6 +38,9 @@ import bisq.proto.grpc.WithdrawFundsReply;
 import bisq.proto.grpc.WithdrawFundsRequest;
 import bisq.proto.grpc.ChatMessageRequest;
 import bisq.proto.grpc.ChatMessageResponse;
+import bisq.proto.grpc.TradeChatMessageRequest;
+import bisq.proto.grpc.TradeChatMessageReply;
+import bisq.proto.grpc.FunctionInvoker;
 
 import io.grpc.ServerInterceptor;
 import io.grpc.stub.StreamObserver;
@@ -208,11 +211,25 @@ class GrpcTradesService extends TradesImplBase {
     }
 
     @Override
-    public void sendChatMessage(TradeChatMessage req,
-                              StreamObserver<TradeChatMessage> responseObserver) {
+    public void sendChatMessage(TradeChatMessageRequest req,
+                              StreamObserver<TradeChatMessageReply> responseObserver) {
         try {
-            coreApi.sendChatMessage(req.getTradeId(), req.getMessage())
-            var reply = TradeChatMessage.newBuilder().build();
+            coreApi.sendChatMessage(req.getTradeId(), req.getMessage());
+            var reply = TradeChatMessageReply.newBuilder().build();
+            responseObserver.onNext(reply);
+            responseObserver.onCompleted();
+        } catch (Throwable cause) {
+            exceptionHandler.handleException(log, cause, responseObserver);
+        }
+    }
+
+
+    @Override
+    public void onChatMessage(TradeChatMessageRequest req,
+                              StreamObserver<FunctionInvoker> responseObserver) {
+        try {
+            coreApi.onChatMessage(req.getTradeId(), req.getMessage());
+            var reply = FunctionInvoker.newBuilder().setInvoke(true).build();
             responseObserver.onNext(reply);
             responseObserver.onCompleted();
         } catch (Throwable cause) {

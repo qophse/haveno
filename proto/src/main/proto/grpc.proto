@@ -314,9 +314,9 @@ service Trades {
     }
     rpc GetChatMessages (ChatMessageRequest) returns (ChatMessageResponse) {
     }
-    rpc SendChatMessage (stream TradeChatMessage) returns (stream TradeChatMessage) {
+    rpc SendChatMessage (stream TradeChatMessageRequest) returns (TradeChatMessageReply) {
     }
-    rpc OnChatMessage (TradeChatMessage) returns (FunctionInvoker) {
+    rpc OnChatMessage (TradeChatMessageRequest) returns (FunctionInvoker) {
     }
 }
 
@@ -428,9 +428,12 @@ message PaymentAccountPayloadInfo {
     string address = 3;
 }
 
-message TradeChatMessage {
+message TradeChatMessageRequest {
     string trade_id = 1;
     string message = 2;
+}
+
+message TradeChatMessageReply {
 }
 
 message ChatMessageRequest {

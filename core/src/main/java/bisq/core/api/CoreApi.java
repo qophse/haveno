@@ -301,6 +301,10 @@ public class CoreApi {
         coreTradesService.sendChatMessage(tradeId, message);
     }
 
+    public void onChatMessage(String tradeId, String message) {
+        coreTradesService.onChatMessage(tradeId, message);
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////
     // Wallets
     ///////////////////////////////////////////////////////////////////////////////////////////

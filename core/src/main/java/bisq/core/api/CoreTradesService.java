@@ -253,6 +253,10 @@ class CoreTradesService {
         traderChatManager.sendChatMessage(tradeId, message);
     }
 
+    void onChatMessage(String tradeId, String message) {
+        traderChatManager.onChatMessage(tradeId, message);
+    }
+
     private boolean isFollowingBuyerProtocol(Trade trade) {
         return tradeManager.getTradeProtocol(trade) instanceof BuyerProtocol;
     }
