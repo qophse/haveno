@@ -134,6 +134,16 @@ public class TraderChatManager extends SupportManager {
         return AckMessageSourceType.TRADE_CHAT_MESSAGE;
     }
 
+    public void sendChatMessage(String tradeId, String message) {
+        ChatMessage chatMessage = new ChatMessage(
+            getSupportType(),
+            tradeId,
+            pubKeyRing.hashCode(),
+            false,
+            message,
+            p2PService.getAddress());
+        sendChatMessage(chatMessage);
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     // API

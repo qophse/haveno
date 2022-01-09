@@ -297,6 +297,10 @@ public class CoreApi {
         return coreTradesService.getChatMessages(tradeId);
     }
 
+    public void sendChatMessage(String tradeId, String message) {
+        coreTradesService.sendChatMessage(tradeId, message);
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////
     // Wallets
     ///////////////////////////////////////////////////////////////////////////////////////////
