@@ -17,6 +17,7 @@
 
 package bisq.core.support.dispute.mediation;
 
+import bisq.core.api.CoreNotificationService;
 import bisq.core.btc.setup.WalletsSetup;
 import bisq.core.btc.wallet.TradeWalletService;
 import bisq.core.btc.wallet.XmrWalletService;
@@ -78,6 +79,7 @@ public final class MediationManager extends DisputeManager<MediationDisputeList>
                             TradeWalletService tradeWalletService,
                             XmrWalletService walletService,
                             WalletsSetup walletsSetup,
+                            CoreNotificationService notificationService,
                             TradeManager tradeManager,
                             ClosedTradableManager closedTradableManager,
                             OpenOfferManager openOfferManager,
@@ -85,7 +87,7 @@ public final class MediationManager extends DisputeManager<MediationDisputeList>
                             MediationDisputeListService mediationDisputeListService,
                             Config config,
                             PriceFeedService priceFeedService) {
-        super(p2PService, tradeWalletService, walletService, walletsSetup, tradeManager, closedTradableManager,
+        super(p2PService, tradeWalletService, walletService, walletsSetup, notificationService, tradeManager, closedTradableManager,
                 openOfferManager, keyRing, mediationDisputeListService, config, priceFeedService);
     }
 

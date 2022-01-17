@@ -17,6 +17,7 @@
 
 package bisq.core.support;
 
+import bisq.core.api.CoreNotificationService;
 import bisq.core.btc.setup.WalletsSetup;
 import bisq.core.locale.Res;
 import bisq.core.support.messages.ChatMessage;
@@ -48,6 +49,7 @@ import javax.annotation.Nullable;
 public abstract class SupportManager {
     protected final P2PService p2PService;
     protected final WalletsSetup walletsSetup;
+    protected final CoreNotificationService notificationService;
     protected final Map<String, Timer> delayMsgMap = new HashMap<>();
     private final CopyOnWriteArraySet<DecryptedMessageWithPubKey> decryptedMailboxMessageWithPubKeys = new CopyOnWriteArraySet<>();
     private final CopyOnWriteArraySet<DecryptedMessageWithPubKey> decryptedDirectMessageWithPubKeys = new CopyOnWriteArraySet<>();
@@ -59,11 +61,12 @@ public abstract class SupportManager {
     // Constructor
     ///////////////////////////////////////////////////////////////////////////////////////////
 
-    public SupportManager(P2PService p2PService, WalletsSetup walletsSetup) {
+    public SupportManager(P2PService p2PService, WalletsSetup walletsSetup, CoreNotificationService notificationService) {
         this.p2PService = p2PService;
         mailboxMessageService = p2PService.getMailboxMessageService();
 
         this.walletsSetup = walletsSetup;
+        this.notificationService = notificationService;
 
         // We get first the message handler called then the onBootstrapped
         p2PService.addDecryptedDirectMessageListener((decryptedMessageWithPubKey, senderAddress) -> {
@@ -153,6 +156,7 @@ public abstract class SupportManager {
         PubKeyRing receiverPubKeyRing = getPeerPubKeyRing(chatMessage);
 
         addAndPersistChatMessage(chatMessage);
+        notificationService.sendChatNotificaiton(chatMessage);
 
         // We never get a errorMessage in that method (only if we cannot resolve the receiverPubKeyRing but then we
         // cannot send it anyway)

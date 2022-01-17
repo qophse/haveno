@@ -17,6 +17,7 @@
 
 package bisq.core.support.dispute.refund;
 
+import bisq.core.api.CoreNotificationService;
 import bisq.core.btc.setup.WalletsSetup;
 import bisq.core.btc.wallet.TradeWalletService;
 import bisq.core.btc.wallet.XmrWalletService;
@@ -72,6 +73,7 @@ public final class RefundManager extends DisputeManager<RefundDisputeList> {
                          TradeWalletService tradeWalletService,
                          XmrWalletService walletService,
                          WalletsSetup walletsSetup,
+                         CoreNotificationService notificationService,
                          TradeManager tradeManager,
                          ClosedTradableManager closedTradableManager,
                          OpenOfferManager openOfferManager,
@@ -80,7 +82,7 @@ public final class RefundManager extends DisputeManager<RefundDisputeList> {
                          RefundDisputeListService refundDisputeListService,
                          Config config,
                          PriceFeedService priceFeedService) {
-        super(p2PService, tradeWalletService, walletService, walletsSetup, tradeManager, closedTradableManager,
+        super(p2PService, tradeWalletService, walletService, walletsSetup, notificationService, tradeManager, closedTradableManager,
                 openOfferManager, keyRing, refundDisputeListService, config, priceFeedService);
     }
 
