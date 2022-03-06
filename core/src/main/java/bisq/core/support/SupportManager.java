@@ -156,7 +156,7 @@ public abstract class SupportManager {
         PubKeyRing receiverPubKeyRing = getPeerPubKeyRing(chatMessage);
 
         addAndPersistChatMessage(chatMessage);
-        notificationService.sendChatNotificaiton(chatMessage);
+        notificationService.sendChatNotification(chatMessage);
 
         // We never get a errorMessage in that method (only if we cannot resolve the receiverPubKeyRing but then we
         // cannot send it anyway)
