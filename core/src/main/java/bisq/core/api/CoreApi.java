@@ -29,6 +29,7 @@ import bisq.core.offer.OfferPayload;
 import bisq.core.offer.OpenOffer;
 import bisq.core.payment.PaymentAccount;
 import bisq.core.payment.payload.PaymentMethod;
+import bisq.core.support.messages.ChatMessage;
 import bisq.core.trade.Trade;
 import bisq.core.trade.statistics.TradeStatistics3;
 import bisq.core.trade.statistics.TradeStatisticsManager;
@@ -465,6 +466,21 @@ public class CoreApi {
         return corePriceService.getMarketDepth(currencyCode);
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    // Trade Chat
+    ///////////////////////////////////////////////////////////////////////////////////////////
+
+   public List<ChatMessage> getChatMessages(String tradeId) {
+        return coreTradesService.getChatMessages(tradeId);
+    }
+
+    public void sendChatMessage(String tradeId, String message) {
+        coreTradesService.sendChatMessage(tradeId, message);
+    }
+
+    public void onChatMessage(String tradeId, String message) {
+        coreTradesService.onChatMessage(tradeId, message);
+    }
     ///////////////////////////////////////////////////////////////////////////////////////////
     // Trades
     ///////////////////////////////////////////////////////////////////////////////////////////

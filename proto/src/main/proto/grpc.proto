@@ -596,6 +596,12 @@ service Trades {
     }
     rpc WithdrawFunds (WithdrawFundsRequest) returns (WithdrawFundsReply) {
     }
+    rpc GetChatMessages (ChatMessageRequest) returns (ChatMessageResponse) {
+    }
+    rpc SendChatMessage (TradeChatMessageRequest) returns (TradeChatMessageReply) {
+    }
+    rpc OnChatMessage (TradeChatMessageRequest) returns (FunctionInvoker) {
+    }
 }
 
 message TakeOfferRequest {
@@ -704,6 +710,26 @@ message PaymentAccountPayloadInfo {
     string id = 1;
     string payment_method_id = 2;
     string address = 3;
+}
+
+message TradeChatMessageRequest {
+    string trade_id = 1;
+    string message = 2;
+}
+
+message TradeChatMessageReply {
+}
+
+message ChatMessageRequest {
+    string trade_id = 1;
+}
+
+message ChatMessageResponse {
+    repeated ChatMessage message = 1;
+}
+
+message FunctionInvoker {
+    bool invoke = 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

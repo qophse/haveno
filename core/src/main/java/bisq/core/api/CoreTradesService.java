@@ -22,6 +22,9 @@ import bisq.core.btc.wallet.BtcWalletService;
 import bisq.core.offer.Offer;
 import bisq.core.offer.OfferUtil;
 import bisq.core.offer.takeoffer.TakeOfferModel;
+import bisq.core.support.SupportType;
+import bisq.core.support.messages.ChatMessage;
+import bisq.core.support.traderchat.TraderChatManager;
 import bisq.core.trade.Tradable;
 import bisq.core.trade.Trade;
 import bisq.core.trade.TradeManager;
@@ -61,6 +64,7 @@ class CoreTradesService {
     private final OfferUtil offerUtil;
     private final ClosedTradableManager closedTradableManager;
     private final TakeOfferModel takeOfferModel;
+    private final TraderChatManager traderChatManager;
     private final TradeManager tradeManager;
     private final TradeUtil tradeUtil;
     private final User user;
@@ -72,6 +76,7 @@ class CoreTradesService {
                              OfferUtil offerUtil,
                              ClosedTradableManager closedTradableManager,
                              TakeOfferModel takeOfferModel,
+                             TraderChatManager traderChatManager,
                              TradeManager tradeManager,
                              TradeUtil tradeUtil,
                              User user) {
@@ -81,6 +86,7 @@ class CoreTradesService {
         this.offerUtil = offerUtil;
         this.closedTradableManager = closedTradableManager;
         this.takeOfferModel = takeOfferModel;
+        this.traderChatManager = traderChatManager;
         this.tradeManager = tradeManager;
         this.tradeUtil = tradeUtil;
         this.user = user;
@@ -235,6 +241,20 @@ class CoreTradesService {
         List<Trade> trades = new ArrayList<Trade>(tradeManager.getTrades());
         trades.addAll(closedTradableManager.getClosedTrades());
         return trades;
+    }
+
+    List<ChatMessage> getChatMessages(String tradeId) {
+        List<ChatMessage> tradeChats = new ArrayList<ChatMessage>();
+        tradeChats.addAll(traderChatManager.getAllChatMessages());
+        return tradeChats;
+    }
+
+    void sendChatMessage(String tradeId, String message) {
+        traderChatManager.sendChatMessage(tradeId, message);
+    }
+
+    void onChatMessage(String tradeId, String message) {
+        traderChatManager.onChatMessage(tradeId, message);
     }
 
     private boolean isFollowingBuyerProtocol(Trade trade) {
